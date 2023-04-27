@@ -56,7 +56,7 @@ class CourseController extends Controller
      */
     public function show(string $id)
     {
-        $Course = Course::find($id);
+        $Course = Course::findOrFail($id);
 
         return response()->json($Course);
     }
@@ -81,11 +81,11 @@ class CourseController extends Controller
             'endDate' => 'required',
         ]);
 
-        $Course = Course::find($id);
+        $Course = Course::findOrFail($id);
         $Course->name = $request->name;
         $Course->startDate = $request->startDate;
         $Course->endDate = $request->endDate;
-        $Course->update();
+        $Course->save();
 
         return response()->json(["message" => "¡Vehiculo actualizado correctamente!", "data" => $Course]);
     }
@@ -97,5 +97,6 @@ class CourseController extends Controller
     {
         $Course = Course::find($id);
         $Course->delete();
+        return response()->json(["message" => "Curso borrado correctamente!"]);
     }
 }
